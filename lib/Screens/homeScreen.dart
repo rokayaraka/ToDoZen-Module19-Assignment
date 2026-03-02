@@ -34,6 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(title: Text('All Posts')),
       body: ListView.builder(
         itemCount: posts.length,
@@ -41,7 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
           final item = posts[index];
           log(posts.length);
           return Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(5.0),
             child: Container(
               child: Column(
                 children: [CardWidget(item: item, deletePost: deletePost)],
@@ -51,41 +52,9 @@ class _HomeScreenState extends State<HomeScreen> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: showAddDialog,
+        onPressed: (){},
         child: Icon(Icons.add, size: 35),
       ),
-    );
-  }
-
-  void showAddDialog() {
-    TextEditingController _userIdController = TextEditingController();
-    // TextEditingController _idController = TextEditingController();
-    TextEditingController _titleController = TextEditingController();
-    TextEditingController _bodyController = TextEditingController();
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text('Add New Product'),
-          content: Column(
-            children: [
-              TextField(
-                controller: _userIdController,
-                decoration: InputDecoration(hintText: 'UserId'),
-              ),
-              TextField(
-                controller: _titleController,
-                decoration: InputDecoration(hintText: 'Title'),
-              ),
-              TextField(
-                controller: _bodyController,
-                decoration: InputDecoration(hintText: 'Body'),
-              ),
-            ],
-          ),
-          actions: [ElevatedButton(onPressed: () {}, child: Text('save'))],
-        );
-      },
     );
   }
 }
