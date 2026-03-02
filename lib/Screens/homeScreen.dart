@@ -1,5 +1,9 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:todos/Utils/apiService.dart';
 import 'package:todos/model/posts.dart';
+import 'package:todos/widgets/cardWidget.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -11,43 +15,85 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   List<Posts> posts = [];
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getData();
+  }
+
+  Future<void> getData() async {
+    posts = await ApiService.getData();
+    setState(() {});
+  }
+
+  void deletePost(int id){
+    posts.removeWhere((i)=>i.id==id);
+    setState(() {
+      
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Homscreen')),
+      //appBar: AppBar(title: Text('Homscreen')),
       body: ListView.builder(
-        itemCount: 5,
+        itemCount: posts.length,
         itemBuilder: (context, index) {
-          //final item = Posts[index];
+          final item = posts[index];
+          log(posts.length);
           return Container(
-            child: Column(
-              children: [
-                Card(
-                  child: ListTile(
-                    title: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text('UserId',style: TextTheme.of(context).bodyMedium,),
-
-                        Text('id',style: TextTheme.of(context).bodyMedium,),
-                      ],
-                    ),
-                    subtitle: Column(
-                      children: [
-                        Text('Title',style: TextTheme.of(context).bodyLarge,),
-                        Text('Body')
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
+            child: Column(children: [CardWidget(item: item,deletePost: deletePost,)]),
           );
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: showAddDialog,
         child: Icon(Icons.add, size: 35),
       ),
     );
   }
+
+
+
+void showAddDialog() {
+    TextEditingController _userIdController = TextEditingController();
+   // TextEditingController _idController = TextEditingController();
+    TextEditingController _titleController = TextEditingController();
+    TextEditingController _bodyController = TextEditingController();
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Add New Product'),
+          content: Column(
+            children: [
+              TextField(
+                controller: _userIdController,
+                decoration: InputDecoration(hintText: 'UserId'),
+              ),
+              TextField(
+                controller: _titleController,
+                decoration: InputDecoration(hintText: 'Title'),
+              ),
+              TextField(
+                controller: _bodyController,
+                decoration: InputDecoration(hintText: 'Body'),
+              ),
+             
+            ],
+          ),
+          actions: [
+            ElevatedButton(
+              onPressed: ()  {
+              
+              },
+              child: Text('save'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
 }

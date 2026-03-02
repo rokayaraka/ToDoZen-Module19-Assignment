@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:todos/Screens/splashScreen.dart';
 
@@ -18,19 +20,26 @@ class App extends StatelessWidget {
           ),
         ),
         floatingActionButtonTheme: FloatingActionButtonThemeData(
-          backgroundColor: Colors.green,
-          foregroundColor: Colors.white,
+          backgroundColor: Colors.white,
+          foregroundColor: Colors.green,
         ),
         cardTheme: CardThemeData(color: Colors.green.shade500),
         
         textTheme: TextTheme(
           bodyLarge: TextStyle(
-            color: Colors.white,
+            color: Colors.black,
             fontSize: 30,
           ),
           bodyMedium: TextStyle(
             color: Colors.black,
             fontSize: 20,
+          ),
+           bodySmall: TextStyle(
+            color: Colors.black,
+            fontSize: 15,
+            overflow: TextOverflow.ellipsis,
+   
+
           ),
         )
       ),
