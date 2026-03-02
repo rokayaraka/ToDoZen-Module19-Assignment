@@ -16,7 +16,7 @@ class CardWidget extends StatelessWidget {
           Container(
             height: 150,
             width: 50,
-            decoration: BoxDecoration(color: Colors.green.shade200),
+            decoration: BoxDecoration(color: Colors.purple.shade200),
             child: Center(
               child: Text(
                 item.id.toString(),
@@ -25,27 +25,60 @@ class CardWidget extends StatelessWidget {
             ),
           ),
           Expanded(
+            flex: 3,
             child:Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                   Text(
-                item.title,
-                style: TextTheme.of(context).bodyMedium,
-                overflow: TextOverflow.ellipsis,
-                maxLines: 2,
-              ),
-              SizedBox(height: 20,),
-              //  Text(
-              //   item.body,
-              //   style: TextTheme.of(context).bodySmall,
-              //   overflow: TextOverflow.ellipsis,
-              //   maxLines: 2,
-              // ),
-                ],
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                     Text(
+                  item.title,
+                  style: TextTheme.of(context).bodyMedium,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                ),
+                SizedBox(height: 20,),
+                 Text(
+                  item.body,
+                  style: TextTheme.of(context).bodySmall,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 4,
+
+                ),
+                  ],
+                ),
               ),
             ),
           ),
+          Expanded(
+            flex: 0,
+            child: 
+             Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                IconButton(
+                  onPressed: () async {
+                    final isDeleted = await ApiService.deletePost(item.id!);
+                    if (isDeleted) {
+                      deletePost(item.id!);
+                      ScaffoldMessenger.of(
+                        context,
+                      ).showSnackBar(SnackBar(content: Text('Post Deleted.')));
+                    }
+
+                  },
+                  icon: Icon(Icons.delete, color: Colors.red),
+                ),
+                Divider(height: 6,),
+                IconButton(
+                  onPressed: () {},
+                  icon: Icon(Icons.edit, color: Colors.blue),
+                ),
+              ],
+            ),
+          ),
+          
           
         ],
       ),
@@ -54,44 +87,3 @@ class CardWidget extends StatelessWidget {
 }
 
 
-//  ListTile(
-//         title: Row(
-//           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//           children: [
-//             Text(
-//               item.userId.toString(),
-//               style: TextTheme.of(context).bodyMedium,
-//             ),
-
-//             Text(item.id.toString(), style: TextTheme.of(context).bodyMedium),
-//           ],
-//         ),
-//         subtitle: Column(
-//           children: [
-//             Text(item.title, style: TextTheme.of(context).bodyLarge),
-//             Text(item.body),
-//             Row(
-//               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-//               children: [
-//                 IconButton(
-//                   onPressed: () async {
-//                     final isDeleted = await ApiService.deletePost(item.id!);
-//                     if (isDeleted) {
-//                       deletePost(item.id!);
-//                       ScaffoldMessenger.of(
-//                         context,
-//                       ).showSnackBar(SnackBar(content: Text('Post Deleted.')));
-//                     }
-
-//                   },
-//                   icon: Icon(Icons.delete, color: Colors.red),
-//                 ),
-//                 IconButton(
-//                   onPressed: () {},
-//                   icon: Icon(Icons.edit, color: Colors.white),
-//                 ),
-//               ],
-//             ),
-//           ],
-//         ),
-//       ),

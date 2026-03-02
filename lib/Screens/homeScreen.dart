@@ -26,24 +26,27 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {});
   }
 
-  void deletePost(int id){
-    posts.removeWhere((i)=>i.id==id);
-    setState(() {
-      
-    });
+  void deletePost(int id) {
+    posts.removeWhere((i) => i.id == id);
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //appBar: AppBar(title: Text('Homscreen')),
+      appBar: AppBar(title: Text('All Posts')),
       body: ListView.builder(
         itemCount: posts.length,
         itemBuilder: (context, index) {
           final item = posts[index];
           log(posts.length);
-          return Container(
-            child: Column(children: [CardWidget(item: item,deletePost: deletePost,)]),
+          return Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              child: Column(
+                children: [CardWidget(item: item, deletePost: deletePost)],
+              ),
+            ),
           );
         },
       ),
@@ -54,11 +57,9 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-
-
-void showAddDialog() {
+  void showAddDialog() {
     TextEditingController _userIdController = TextEditingController();
-   // TextEditingController _idController = TextEditingController();
+    // TextEditingController _idController = TextEditingController();
     TextEditingController _titleController = TextEditingController();
     TextEditingController _bodyController = TextEditingController();
     showDialog(
@@ -80,20 +81,11 @@ void showAddDialog() {
                 controller: _bodyController,
                 decoration: InputDecoration(hintText: 'Body'),
               ),
-             
             ],
           ),
-          actions: [
-            ElevatedButton(
-              onPressed: ()  {
-              
-              },
-              child: Text('save'),
-            ),
-          ],
+          actions: [ElevatedButton(onPressed: () {}, child: Text('save'))],
         );
       },
     );
   }
-
 }

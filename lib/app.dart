@@ -12,18 +12,18 @@ class App extends StatelessWidget {
       theme: ThemeData(
         appBarTheme: AppBarTheme(
           centerTitle: true,
-          backgroundColor: Colors.green.shade200,
+          backgroundColor: Colors.purple.shade200,
           titleTextStyle: TextStyle(
             fontSize: 35,
-            color: Colors.green.shade900,
+            color: Colors.purple.shade900,
             fontWeight: FontWeight.bold,
           ),
         ),
         floatingActionButtonTheme: FloatingActionButtonThemeData(
-          backgroundColor: Colors.white,
-          foregroundColor: Colors.green,
+          backgroundColor: Colors.purple.shade200,
+          foregroundColor: Colors.black,
         ),
-        cardTheme: CardThemeData(color: Colors.green.shade500),
+        cardTheme: CardThemeData(color: Colors.white70),
         
         textTheme: TextTheme(
           bodyLarge: TextStyle(
