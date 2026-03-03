@@ -35,7 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(title: Text('All Posts')),
+      appBar: AppBar(title: Text('ToDoZen')),
       body: ListView.builder(
         itemCount: posts.length,
         itemBuilder: (context, index) {
