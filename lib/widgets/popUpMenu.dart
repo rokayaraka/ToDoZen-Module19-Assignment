@@ -76,43 +76,60 @@ class _PopUpMenuState extends State<PopUpMenu> {
     showDialog(
       context: context,
       builder: (context) {
-        return AlertDialog(
-          title: Text('Edit Post'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextField(
-                controller: _titleEditController,
-                decoration: InputDecoration(),
+        return  SizedBox(
+          height: 700,
+          child: AlertDialog(
+              contentTextStyle: TextStyle(fontSize: 20),
+              title: Text('Edit Post'),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  TextField(
+                    style: TextStyle(fontSize: 20),
+                    controller: _titleEditController,
+          
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 20,),
+                  TextField(
+                    style: TextStyle(fontSize: 20),
+                    controller: _bodyEditController,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                  ),
+                ],
               ),
-              TextField(
-                controller: _bodyEditController,
-                decoration: InputDecoration(),
-              ),
-            ],
+              actions: [
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text('Cancel'),
+                ),
+                ElevatedButton(
+                  onPressed: () async {
+                    final post = Posts(
+                      title: _titleEditController.text,
+                      body: _bodyEditController.text,
+                      id: widget.item.id,
+                      userId: widget.item.userId,
+                    );
+                    await ApiService.updatePost(post);
+                    widget.updatePost(post);
+                    Navigator.pop(context);
+                  },
+                  child: Text('Update'),
+                ),
+              ],
+            
           ),
-          actions: [
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text('Cancel'),
-            ),
-            ElevatedButton(
-              onPressed: () async {
-                final post = Posts(
-                  title: _titleEditController.text,
-                  body: _bodyEditController.text,
-                  id: widget.item.id,
-                  userId: widget.item.userId,
-                );
-                await ApiService.updatePost(post);
-                widget.updatePost(post);
-                Navigator.pop(context);
-              },
-              child: Text('Update'),
-            ),
-          ],
         );
       },
     );

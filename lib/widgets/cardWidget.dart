@@ -29,7 +29,7 @@ class CardWidget extends StatelessWidget {
                             height: 40,
                             width: 40,
                             decoration: BoxDecoration(
-                              color: Colors.purple.shade200,
+                              color: Colors.green.shade200,
                               shape: BoxShape.circle,
                             ),
       
@@ -59,7 +59,7 @@ class CardWidget extends StatelessWidget {
                         decoration: BoxDecoration(
                           border: Border.all(),
                           borderRadius: BorderRadius.circular(10),
-                          color: Colors.purple.shade100,
+                          color: Colors.green.shade100,
                         ),
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
