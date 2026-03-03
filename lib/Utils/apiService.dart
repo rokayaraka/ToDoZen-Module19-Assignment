@@ -41,4 +41,19 @@ class ApiService {
     return false;
     }
   }
+
+    static Future<void> addPost(Posts item)async{
+    final url = Urls.postsUrl;
+    log(url);
+    try{
+      final response = await http.post(Uri.parse(url),
+      body: json.encode(item.toMap()),
+      headers: {
+        'Content-Type':'application/json',
+      }
+      );
+      log(response.statusCode.toString());
+    }catch(e){}
+  }
+
 }

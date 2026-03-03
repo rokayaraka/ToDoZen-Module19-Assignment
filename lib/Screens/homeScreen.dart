@@ -16,7 +16,7 @@ class _HomeScreenState extends State<HomeScreen> {
   List<Posts> posts = [];
   @override
   void initState() {
-    // TODO: implement initState
+   
     super.initState();
     getData();
   }
@@ -30,6 +30,13 @@ class _HomeScreenState extends State<HomeScreen> {
     posts.removeWhere((i) => i.id == id);
     setState(() {});
   }
+
+  Map<String,dynamic> addPost(Posts post){
+    return {};
+  }
+
+
+  
 
   @override
   Widget build(BuildContext context) {
@@ -52,9 +59,85 @@ class _HomeScreenState extends State<HomeScreen> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: (){},
+        onPressed: showAddDialog,
         child: Icon(Icons.add, size: 35),
       ),
+    );
+  }
+
+  void showAddDialog() {
+    TextEditingController _titleController = TextEditingController();
+    TextEditingController _bodyController = TextEditingController();
+    TextEditingController _userIdController = TextEditingController();
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          // backgroundColor: Colors.purple.shade100,
+          title: Text('Add New Todo'),
+          content: SizedBox(
+            height: 300,
+            child: Column(
+              children: [
+                TextField(
+                  controller: _userIdController,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    hintText: 'UserId',
+                    hintStyle: TextStyle(fontSize: 20),
+                  ),
+                ),
+                Spacer(),
+                TextField(
+                  controller: _titleController,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    hintText: 'Title',
+                    hintStyle: TextStyle(fontSize: 20),
+                  ),
+                ),
+                Spacer(),
+                TextField(
+                  controller: _bodyController,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    hintText: 'Body',
+                    hintStyle: TextStyle(fontSize: 20),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            ElevatedButton(
+              onPressed: () async {
+                final item = Posts(
+                  userId: int.tryParse(_userIdController.text) ?? 0,
+                  title: _titleController.text,
+                  body: _bodyController.text,
+                );
+                await ApiService.addPost(item);
+                await getData();
+                Navigator.pop(context);
+              },
+              child: Text('Cancel'),
+            ),
+
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text('Save'),
+            ),
+          ],
+        );
+      },
     );
   }
 }
