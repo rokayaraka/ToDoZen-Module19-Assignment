@@ -56,4 +56,18 @@ class ApiService {
     }catch(e){}
   }
 
+  static Future<void>updatePost (Posts item)async{
+    final url = '${Urls.postsUrl}/${item.id}';
+    try{
+      final response = await http.put(Uri.parse(url),
+      body: json.encode(item.toMap()),
+      headers: {
+        'Content-Type': 'application/json',
+      }
+      );
+      log(response.statusCode.toString());
+     
+    }catch(e){}
+  }
+
 }

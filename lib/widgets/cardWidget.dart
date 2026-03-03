@@ -6,7 +6,8 @@ import 'package:todos/widgets/popUpMenu.dart';
 class CardWidget extends StatelessWidget {
   final Posts item;
   final Function(int) deletePost;
-  const CardWidget({super.key, required this.item, required this.deletePost});
+  final Function(Posts) updatePost;
+  const CardWidget({super.key, required this.item, required this.deletePost, required this.updatePost});
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +79,7 @@ class CardWidget extends StatelessWidget {
             ),
             Expanded(
               flex: 0,
-              child: PopUpMenu(item: item, deletePost: deletePost),
+              child: PopUpMenu(item: item, deletePost: deletePost, updatePost: updatePost,),
             ),
       
             // Expanded(

@@ -1,4 +1,6 @@
-import 'dart:math';
+
+
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:todos/Utils/apiService.dart';
@@ -30,7 +32,15 @@ class _HomeScreenState extends State<HomeScreen> {
     posts.removeWhere((i) => i.id == id);
     setState(() {});
   }
-
+  void updatePost(Posts item){
+    log('1');
+  final index=  posts.indexWhere((element) => element.id==item.id,);
+  log(index.toString());
+  posts[index]= item;
+  setState(() {
+    
+  });
+  }
   
 
 
@@ -46,12 +56,12 @@ class _HomeScreenState extends State<HomeScreen> {
           itemCount: posts.length,
           itemBuilder: (context, index) {
             final item = posts[index];
-            log(posts.length);
+            log(posts.length.toString());
             return Padding(
               padding: const EdgeInsets.all(5.0),
               child: Container(
                 child: Column(
-                  children: [CardWidget(item: item, deletePost: deletePost)],
+                  children: [CardWidget(item: item, deletePost: deletePost, updatePost: updatePost)],
                 ),
               ),
             );

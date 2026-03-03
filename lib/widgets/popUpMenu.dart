@@ -5,7 +5,14 @@ import 'package:todos/model/posts.dart';
 class PopUpMenu extends StatefulWidget {
   final Posts item;
   final Function(int) deletePost;
-  const PopUpMenu({super.key, required this.item, required this.deletePost});
+
+  final Function(Posts) updatePost;
+  const PopUpMenu({
+    super.key,
+    required this.item,
+    required this.deletePost,
+    required this.updatePost,
+  });
 
   @override
   State<PopUpMenu> createState() => _PopUpMenuState();
@@ -18,7 +25,7 @@ class _PopUpMenuState extends State<PopUpMenu> {
       icon: Icon(Icons.more_vert),
       onSelected: (value) {
         if (value == 'edit') {
-          //editItem();
+          editPost();
         } else if (value == 'delete') {
           showDialog(
             context: context,
@@ -27,15 +34,15 @@ class _PopUpMenuState extends State<PopUpMenu> {
               content: Text("Are you sure you want to delete?"),
               actions: [
                 TextButton(
-                  style: TextButton.styleFrom(
-                    backgroundColor: Colors.orange
-                  ),
+                  style: TextButton.styleFrom(backgroundColor: Colors.orange),
                   onPressed: () => Navigator.pop(context),
                   child: Text("Cancel"),
                 ),
                 TextButton(
                   onPressed: () async {
-                    final isDeleted = await ApiService.deletePost(widget.item.id!);
+                    final isDeleted = await ApiService.deletePost(
+                      widget.item.id!,
+                    );
                     if (isDeleted) {
                       widget.deletePost(widget.item.id!);
                       ScaffoldMessenger.of(
@@ -55,6 +62,59 @@ class _PopUpMenuState extends State<PopUpMenu> {
         PopupMenuItem(value: 'edit', child: Text("Edit")),
         PopupMenuItem(value: 'delete', child: Text("Delete")),
       ],
+    );
+  }
+
+  void editPost() {
+    TextEditingController _titleEditController = TextEditingController(
+      text: widget.item.title,
+    );
+    TextEditingController _bodyEditController = TextEditingController(
+      text: widget.item.body,
+    );
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Edit Post'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: _titleEditController,
+                decoration: InputDecoration(),
+              ),
+              TextField(
+                controller: _bodyEditController,
+                decoration: InputDecoration(),
+              ),
+            ],
+          ),
+          actions: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text('Cancel'),
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                final post = Posts(
+                  title: _titleEditController.text,
+                  body: _bodyEditController.text,
+                  id: widget.item.id,
+                  userId: widget.item.userId,
+                );
+                await ApiService.updatePost(post);
+                widget.updatePost(post);
+                Navigator.pop(context);
+              },
+              child: Text('Update'),
+            ),
+          ],
+        );
+      },
     );
   }
 }
