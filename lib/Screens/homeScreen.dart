@@ -31,9 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {});
   }
 
-  Map<String,dynamic> addPost(Posts post){
-    return {};
-  }
+  
 
 
   
@@ -43,20 +41,22 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(title: Text('ToDoZen')),
-      body: ListView.builder(
-        itemCount: posts.length,
-        itemBuilder: (context, index) {
-          final item = posts[index];
-          log(posts.length);
-          return Padding(
-            padding: const EdgeInsets.all(5.0),
-            child: Container(
-              child: Column(
-                children: [CardWidget(item: item, deletePost: deletePost)],
+      body: SafeArea(
+        child: ListView.builder(
+          itemCount: posts.length,
+          itemBuilder: (context, index) {
+            final item = posts[index];
+            log(posts.length);
+            return Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: Container(
+                child: Column(
+                  children: [CardWidget(item: item, deletePost: deletePost)],
+                ),
               ),
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: showAddDialog,
@@ -69,6 +69,7 @@ class _HomeScreenState extends State<HomeScreen> {
     TextEditingController _titleController = TextEditingController();
     TextEditingController _bodyController = TextEditingController();
     TextEditingController _userIdController = TextEditingController();
+     TextEditingController _idController = TextEditingController();
     showDialog(
       context: context,
       builder: (context) {
@@ -76,9 +77,20 @@ class _HomeScreenState extends State<HomeScreen> {
           // backgroundColor: Colors.purple.shade100,
           title: Text('Add New Todo'),
           content: SizedBox(
-            height: 300,
+            height: 500,
             child: Column(
               children: [
+                 TextField(
+                  controller: _idController,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    hintText: 'ID',
+                    hintStyle: TextStyle(fontSize: 20),
+                  ),
+                ),
+                Spacer(),
                 TextField(
                   controller: _userIdController,
                   decoration: InputDecoration(
@@ -116,21 +128,25 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           actions: [
             ElevatedButton(
-              onPressed: () async {
-                final item = Posts(
-                  userId: int.tryParse(_userIdController.text) ?? 0,
-                  title: _titleController.text,
-                  body: _bodyController.text,
-                );
-                await ApiService.addPost(item);
-                await getData();
+              onPressed: ()  {
                 Navigator.pop(context);
               },
               child: Text('Cancel'),
             ),
 
             ElevatedButton(
-              onPressed: () {
+              onPressed: ()async {
+                final item = Posts(
+                  id: int.tryParse(_idController.text),
+                  userId: int.tryParse(_userIdController.text) ?? 0,
+                  title: _titleController.text,
+                  body: _bodyController.text,
+                );
+                await ApiService.addPost(item);
+                posts.add(item);
+                setState(() {
+                  
+                });
                 Navigator.pop(context);
               },
               child: Text('Save'),

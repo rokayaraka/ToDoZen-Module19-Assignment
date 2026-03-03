@@ -10,7 +10,7 @@ class CardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Card(
+    return  Card(elevation: 4,
       child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
@@ -70,6 +70,7 @@ class CardWidget extends StatelessWidget {
                           ),
                         ),
                       ),
+                       SizedBox(height: 10,),
                     ],
                   ),
                 ),
